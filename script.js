@@ -36,11 +36,19 @@ compute() {
 updateDisplay() {
 }
 
-const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
+const calculator = new Calculator(previousOperandTextElement, 
+    currentOperandTextElement)
 
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
        calculator.appendNumber(button.innerText)
-       calculator.updateDisplay()
+       calculator.updateDisplay(this.currentOperandTextElement.innerText
+         = this.currentOperand)
     })
 })
+
+appendNumber(number) {
+    if (number === '.' && this.currentOperand.includes('.')) return
+    this.currentOperand = this.currentOperand.toString() + number.toString()
+}
+
