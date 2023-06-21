@@ -37,13 +37,19 @@ allClearButton.addEventListener('click', button => {
     calculator.updateDisplay()
 })
 
+deleteButton.addEventListener('click', button => {
+    calculator.delete()
+    calculator.updateDisplay()
+})
+
 clear() ;{
     this.currentOperand = ''
     this.previousOperand = ''
     this.operation = undefined
 };
 
-delete() ;{
+delete(value) ;{
+    this.currentOperand = this.currentOperand.toString().slice(0, -1)
 }
 
 appendNumber(number) ;{
@@ -85,5 +91,33 @@ compute() ;{
   }
 
 updateDisplay() ;{
-    this.currentOperandTextElement.innerText = this.currentOperand
+    this.currentOperandTextElement.innerText =
+      this.getDisplayNumber(this.currentOperand)
+    if (this.operation != null) {
+      this.previousOperandTextElement.innerText = 
+        `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+    } else {
+      this.previousOperandTextElement.innerText = ''
+    }
+}
+
+getDisplayNumber(number) ;{
+    const stringNumber = number.toString()
+    const integerDigits = parseFloat(stringNumber.split('.')[0])
+    const decimalDigits = string.split('.')[1]
+    let integerDisplay
+    if (isNaN(integerDigits)) {
+        integerDisplay = ''
+    } else {
+        integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
+    }
+    if (decimalDigits != null) {
+        return `${intergerDisplay}.${decimalDigits}`
+    } else {
+      return integerDisplay  
+    }
+
+    const floatNumber = parseFloat(number)
+    if (isNaN(floatNumber)) return ''
+    return floatNumber.toLocaleString('en')
 }
